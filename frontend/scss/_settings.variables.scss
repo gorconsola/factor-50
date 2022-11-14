@@ -1,0 +1,43 @@
+// Colors
+
+$white: #FFFFFF;
+$yellow: #FFE200;
+$black: #150C3C;
+$green: #3EE9B6;
+$blue: #008dff;
+$light: #EDF3FF;
+$grey: #00555F;
+
+
+// Gradient
+
+$g1: $black;
+$g2: #2D2153;
+$g3: #45366C;
+$g4: #5E4D86;
+$g5: #7765A0;
+$g6: #927EBB;
+
+
+// Fonts
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+
+$sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$inter: 'Inter', $sans;
+
+$semi-bold: 500;
+$bold: 700;
+$extra-bold: 800;
+
+// Breakpoints
+
+$tiny: 480px;
+$small: 768px;
+$medium: 1024px;
+
+
+// Miscellaneous
+
+$maxWidth: 40em;
+$radius: .25em;
