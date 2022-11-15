@@ -1,0 +1,11 @@
+table:
+  name: tags
+  schema: public
+select_permissions:
+  - role: guest
+    permission:
+      columns:
+        - id
+        - name
+        - comment
+      filter: {}

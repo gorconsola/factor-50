@@ -1,0 +1,11 @@
+table:
+  name: post_status
+  schema: public
+is_enum: true
+select_permissions:
+  - role: guest
+    permission:
+      columns:
+        - value
+        - comment
+      filter: {}

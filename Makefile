@@ -21,27 +21,27 @@ jumpin: ## Get a bash shell in an already started container ('frontend' by defau
 ps: ## List all containers that are part of this project
 	docker-compose ps
 
-.PHONY: hasura-migrations-init
-hasura-migrations-init: ##  Initialize Hasura migrations
+.PHONY: migrations-init
+migrations-init: ##  Initialize Hasura migrations
 	@docker-compose exec hasura bash -c "cd /tmp; hasura-cli init hasura --endpoint http://localhost:8080; cp -r /tmp/hasura/* /hasura/"
 	@echo "When using the Makefile start conosle with: make hasura-console"
 
-.PHONY: hasura-migrations-status
-hasura-migrations-status: ## Check Hasura's migration status
-	@docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate status --database-name=postgres"
+.PHONY: migrations-status
+migrations-status: ## Check Hasura's migration status
+	@docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate status --database-name=factor50"
 
-.PHONY: hasura-migrations-squash
-hasura-migrations-squash: ## Squash multiple migrations into one (currently broken)
+.PHONY: migrations-squash
+migrations-squash: ## Squash multiple migrations into one (currently broken)
 	@echo "Go run it yourself (fill in the gaps and use the resulting migration version with 'make hasura-migration-apply'):"
 	@echo 'docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate squash --name \"<feature name>\" --from <start migration version> --database-name=postgres"'
 
-.PHONY: hasura-migrations-apply
-hasura-migrations-apply: ## Make Hasura apply it's migrations
+.PHONY: migrations-apply
+migrations-apply: ## Make Hasura apply it's migrations
 	@echo "Go run it yourself (fill in the squased migration version):"
 	@echo 'docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate apply --version \"<squash migration version>\" --skip-execution --database-name=postgres"'
 
-.PHONY: hasura-export-metadata
-hasura-export-metadata: ## Export the metadata from Hasura
+.PHONY: export-metadata
+export-metadata: ## Export the metadata from Hasura
 	@docker-compose exec hasura bash -c "cd /hasura; hasura-cli metadata export"
 
 .PHONY: hasura-console
