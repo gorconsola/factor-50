@@ -82,25 +82,39 @@ nav {
         display: flex;
         list-style-type: none;
         border-bottom: 1px solid $lightgrey;
-        padding: 1rem;
+        padding: 0 1rem;
         font-weight: $semi-bold;
         align-items: center;
-
+        height: 4rem;
     }
 
     li {
         margin: 0 1rem;
+        padding-top: 0.125rem;
+        display: flex;
+        align-items: center;
+        height: 4rem;
+        border-bottom: 2px solid transparent;
+
+        &:not(.menu__logo):hover,
+        &.is-active {
+            border-bottom: 2px solid $purple;
+
+            a {
+                color: $darkgrey;
+            }
+        }
+
     }
 
     a {
         text-decoration: none;
         color: $lightgrey;
         font-size: 1rem;
+        transition: 0.2s;
 
-        &:hover,
-        &.is-active {
-            color: $purple;
+        &:hover {
+            color: $darkgrey;
         }
-
     }
 }
