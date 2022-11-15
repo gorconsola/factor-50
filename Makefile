@@ -45,12 +45,12 @@ hasura-export-metadata: ## Export the metadata from Hasura
 	@docker-compose exec hasura bash -c "cd /hasura; hasura-cli metadata export"
 
 .PHONY: hasura-console
-hasura-console: ## Start the Hasura console (on http://localhost:9695)
-	@docker-compose exec hasura bash -c "apt-get install -y socat; cd /hasura; \
-		socat TCP-LISTEN:8080,fork TCP:hasura:8080 & \
-		socat TCP-LISTEN:9695,fork,reuseaddr,bind=hasura TCP:127.0.0.1:9695 & \
-		socat TCP-LISTEN:9693,fork,reuseaddr,bind=hasura TCP:127.0.0.1:9693 & \
-		hasura-cli console --log-level DEBUG --address "127.0.0.1" --no-browser || exit 1 "
+hasura-console: ## 
+		@docker-compose exec hasura bash -c "apt-get update; apt-get install -y socat; cd /hasura; \
+				socat TCP-LISTEN:8080,fork TCP:hasura:8080 & \
+				socat TCP-LISTEN:9695,fork,reuseaddr,bind=hasura TCP:127.0.0.1:9695 & \
+				socat TCP-LISTEN:9693,fork,reuseaddr,bind=hasura TCP:127.0.0.1:9693 & \
+				hasura-cli console --log-level DEBUG --address "127.0.0.1" --no-browser || exit 1 "
 
 .PHONY: generate-elm-graphql-client
 generate-elm-graphql-client: ## Generate GraphQL client library
