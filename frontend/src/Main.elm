@@ -4,6 +4,7 @@ import Browser
 import Browser.Navigation as Nav
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Route exposing (Route(..))
 import Url
 import Util.Icon exposing (viewFactor50)
 
@@ -38,45 +39,28 @@ subscriptions _ =
 
 
 type alias Model =
-    { page : Page
+    { currentRoute : Route
     , key : Nav.Key
     }
 
 
-type Page
-    = Home
-    | Onboarding
-    | Policies
-    | Learning
-    | NotFound
+type MenuItem
+    = MenuItem MenuItemData
+
+
+type alias MenuItemData =
+    { route : Route
+    , title : String
+    }
 
 
 init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init _ url key =
-    ( { page = toPage url
+    ( { currentRoute = Route.fromUrl url
       , key = key
       }
     , Cmd.none
     )
-
-
-toPage : Url.Url -> Page
-toPage url =
-    case url.path of
-        "/" ->
-            Home
-
-        "/onboarding" ->
-            Onboarding
-
-        "/policies" ->
-            Policies
-
-        "/learning" ->
-            Learning
-
-        _ ->
-            NotFound
 
 
 
@@ -102,7 +86,7 @@ update msg model =
             ( model, Nav.load href )
 
         UrlChanged url ->
-            ( { model | page = toPage url }
+            ( { model | currentRoute = Route.fromUrl url }
             , Cmd.none
             )
 
@@ -116,34 +100,35 @@ view model =
     { title = "Project template"
     , body =
         [ main_ [ class "main" ]
-            [ viewNavigation model.page
-            , viewPage model.page
+            [ viewMenu model.currentRoute
+            , viewPage model.currentRoute
             ]
         ]
     }
 
 
-viewNavigation : Page -> Html Msg
-viewNavigation _ =
+viewMenu : Route -> Html Msg
+viewMenu currentRoute =
     let
-        viewLink path =
-            li [] [ a [ href path ] [ text path ] ]
+        viewMenuItem (MenuItem item) =
+            li [ classList [ ( "is-active", item.route == currentRoute ) ] ]
+                [ Route.viewLink item.route [] [ text item.title ]
+                ]
+
+        viewRoot =
+            li [ class "menu__logo" ]
+                [ a [ href "/" ] [ viewFactor50 ]
+                ]
     in
     nav []
-        [ ol []
-            [ li [] [ a [ href "/" ] [ viewFactor50 ] ]
-            , viewLink "/onboarding"
-            , viewLink "/policies"
-            , viewLink "/learning"
-            , viewLink "/asdklfjakslfj"
-            ]
+        [ ol [] <| viewRoot :: List.map viewMenuItem menuItems
         ]
 
 
-viewPage : Page -> Html Msg
-viewPage page =
-    case page of
-        Home ->
+viewPage : Route -> Html Msg
+viewPage route =
+    case route of
+        Root ->
             h1 [] [ text "Home" ]
 
         Onboarding ->
@@ -155,5 +140,17 @@ viewPage page =
         Learning ->
             h1 [] [ text "Learning" ]
 
-        NotFound ->
+        UnknownRoute ->
             h1 [] [ text "404 Page Not Found" ]
+
+
+
+-- HELPERS
+
+
+menuItems : List MenuItem
+menuItems =
+    [ MenuItem { route = Onboarding, title = "Onboarding" }
+    , MenuItem { route = Policies, title = "Policies" }
+    , MenuItem { route = Learning, title = "Learning" }
+    ]
