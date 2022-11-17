@@ -1,3 +1,4 @@
 -- Could not auto-generate a down migration.
 -- Please write an appropriate down migration for the SQL below:
--- DROP table "public"."post_status";
+-- alter table "public"."users" add column "email" text
+--  null;
