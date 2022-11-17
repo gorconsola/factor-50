@@ -33,12 +33,12 @@ migrations-status: ## Check Hasura's migration status
 .PHONY: migrations-squash
 migrations-squash: ## Squash multiple migrations into one (currently broken)
 	@echo "Go run it yourself (fill in the gaps and use the resulting migration version with 'make hasura-migration-apply'):"
-	@echo 'docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate squash --name \"<feature name>\" --from <start migration version> --database-name=postgres"'
+	@echo 'docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate squash --name \"<feature name>\" --from <start migration version> --database-name=factor50"'
 
 .PHONY: migrations-apply
 migrations-apply: ## Make Hasura apply it's migrations
 	@echo "Go run it yourself (fill in the squased migration version):"
-	@echo 'docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate apply --version \"<squash migration version>\" --skip-execution --database-name=postgres"'
+	@echo 'docker-compose exec hasura bash -c "cd /hasura; hasura-cli migrate apply --version \"<squash migration version>\" --skip-execution --database-name=factor50"'
 
 .PHONY: export-metadata
 export-metadata: ## Export the metadata from Hasura
